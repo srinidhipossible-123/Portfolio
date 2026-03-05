@@ -361,16 +361,16 @@ export const HeroSection = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 pt-6 md:pt-8 border-t border-primary/20">
               <div className="text-center group">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary text-glow transition-transform duration-300 group-hover:scale-110">50+</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary text-glow transition-transform duration-300 group-hover:scale-110">5+</div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">Projects</div>
               </div>
               <div className="text-center group">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary text-glow-blue transition-transform duration-300 group-hover:scale-110">5+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">Years Exp</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary text-glow-blue transition-transform duration-300 group-hover:scale-110"></div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1"></div>
               </div>
               <div className="text-center group">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary text-glow transition-transform duration-300 group-hover:scale-110">100%</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">Satisfaction</div>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary text-glow transition-transform duration-300 group-hover:scale-110"></div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1"></div>
               </div>
             </div>
           </div>
