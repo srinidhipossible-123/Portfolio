@@ -5,6 +5,7 @@ const sections = ["home", "about", "skills", "projects", "recognition", "testimo
 export const useSwipeNavigation = () => {
   const touchStartY = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
+  const touchStartTime = useRef<number | null>(null);
   const minSwipeDistance = 50;
   const isScrolling = useRef(false);
   const headerOffsetPx = 96;
@@ -13,6 +14,7 @@ export const useSwipeNavigation = () => {
     const handleTouchStart = (e: TouchEvent) => {
       touchEndY.current = null;
       touchStartY.current = e.touches[0].clientY;
+      touchStartTime.current = Date.now();
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -25,8 +27,11 @@ export const useSwipeNavigation = () => {
       const distance = touchStartY.current - touchEndY.current;
       const isUpSwipe = distance > minSwipeDistance;
       const isDownSwipe = distance < -minSwipeDistance;
+      const durationMs = touchStartTime.current ? Date.now() - touchStartTime.current : null;
+      // Only treat quick flicks as navigation gestures, otherwise let native scrolling win.
+      const isQuickFlick = durationMs !== null && durationMs < 250;
 
-      if (isUpSwipe || isDownSwipe) {
+      if ((isUpSwipe || isDownSwipe) && isQuickFlick) {
         const currentSection = getCurrentSection();
         if (!currentSection) return;
 
@@ -68,33 +73,17 @@ export const useSwipeNavigation = () => {
       return null;
     };
 
-    // Prevent scroll during swipe
-    let touchStartTime = 0;
-    const preventScroll = (e: TouchEvent) => {
-      if (e.touches.length !== 1) return;
-      
-      const now = Date.now();
-      if (now - touchStartTime < 100) {
-        e.preventDefault();
-      }
-      touchStartTime = now;
-    };
-
     // Only enable on mobile
     if (window.innerWidth <= 768) {
       document.addEventListener("touchstart", handleTouchStart, { passive: true });
       document.addEventListener("touchmove", handleTouchMove, { passive: true });
       document.addEventListener("touchend", handleTouchEnd, { passive: true });
-      
-      // Optional: prevent momentum scrolling during swipe
-      document.addEventListener("touchmove", preventScroll, { passive: false });
     }
 
     return () => {
       document.removeEventListener("touchstart", handleTouchStart);
       document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
-      document.removeEventListener("touchmove", preventScroll);
     };
   }, []);
 };

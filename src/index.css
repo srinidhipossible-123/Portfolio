@@ -100,16 +100,16 @@ h1, h2, h3, h4, h5, h6 {
   .space-y-6 > * + * { margin-top: 1rem; }
 }
 
-/* Smooth scrolling with snap points */
-@media (max-width: 768px) {
-  html {
-    scroll-snap-type: y mandatory;
+/* Smooth scrolling with optional snap points (desktop only).
+   On mobile, mandatory snap + touch momentum often feels “glitchy”. */
+@media (min-width: 1024px) {
+  html.snap-enabled {
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
   }
-  
-  section {
+
+  html.snap-enabled section {
     scroll-snap-align: start;
-    scroll-snap-stop: always;
   }
 }
 

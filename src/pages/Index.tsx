@@ -30,9 +30,12 @@ const Index = () => {
   const headerOffsetPx = 96;
 
   useEffect(() => {
-    // Smooth scroll behavior
+    // Smooth scroll behavior (avoid forcing snap on mobile)
     document.documentElement.style.scrollBehavior = "smooth";
-    document.documentElement.classList.add("snap-enabled");
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    if (isDesktop) {
+      document.documentElement.classList.add("snap-enabled");
+    }
     return () => {
       document.documentElement.style.scrollBehavior = "auto";
       document.documentElement.classList.remove("snap-enabled");
