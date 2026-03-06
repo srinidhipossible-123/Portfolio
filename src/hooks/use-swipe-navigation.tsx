@@ -5,8 +5,13 @@ const sections = ["home", "about", "skills", "projects", "recognition", "testimo
 export const useSwipeNavigation = () => {
   const touchStartY = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
   const touchStartTime = useRef<number | null>(null);
-  const minSwipeDistance = 50;
+  // Mobile “scroll sensitivity”: require a deliberate swipe, not normal scrolling.
+  const minSwipeDistancePx = 160;
+  const maxSwipeDurationMs = 200;
+  const maxDiagonalDriftPx = 60;
   const isScrolling = useRef(false);
   const headerOffsetPx = 96;
 
@@ -14,24 +19,31 @@ export const useSwipeNavigation = () => {
     const handleTouchStart = (e: TouchEvent) => {
       touchEndY.current = null;
       touchStartY.current = e.touches[0].clientY;
+      touchEndX.current = null;
+      touchStartX.current = e.touches[0].clientX;
       touchStartTime.current = Date.now();
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       touchEndY.current = e.touches[0].clientY;
+      touchEndX.current = e.touches[0].clientX;
     };
 
     const handleTouchEnd = () => {
       if (!touchStartY.current || !touchEndY.current || isScrolling.current) return;
 
       const distance = touchStartY.current - touchEndY.current;
-      const isUpSwipe = distance > minSwipeDistance;
-      const isDownSwipe = distance < -minSwipeDistance;
+      const isUpSwipe = distance > minSwipeDistancePx;
+      const isDownSwipe = distance < -minSwipeDistancePx;
       const durationMs = touchStartTime.current ? Date.now() - touchStartTime.current : null;
-      // Only treat quick flicks as navigation gestures, otherwise let native scrolling win.
-      const isQuickFlick = durationMs !== null && durationMs < 250;
+      // Only treat very quick, deliberate flicks as navigation gestures.
+      const isQuickFlick = durationMs !== null && durationMs <= maxSwipeDurationMs;
+      const driftX = touchStartX.current !== null && touchEndX.current !== null
+        ? Math.abs(touchStartX.current - touchEndX.current)
+        : 0;
+      const isMostlyVertical = driftX <= maxDiagonalDriftPx;
 
-      if ((isUpSwipe || isDownSwipe) && isQuickFlick) {
+      if ((isUpSwipe || isDownSwipe) && isQuickFlick && isMostlyVertical) {
         const currentSection = getCurrentSection();
         if (!currentSection) return;
 
