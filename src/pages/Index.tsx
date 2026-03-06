@@ -14,7 +14,6 @@ import { ContactSection } from "@/components/ContactSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { DeveloperStats } from "@/components/DeveloperStats";
 import { Analytics } from "@/components/Analytics";
-import { BottomNav } from "@/components/BottomNav";
 import { useSwipeNavigation } from "@/hooks/use-swipe-navigation";
 import { Footer } from "@/components/Footer";
 import { PortfolioChat } from "@/components/PortfolioChat";
@@ -65,7 +64,7 @@ const Index = () => {
       
       <div className="relative z-10 transition-opacity duration-500 opacity-100">
         <Header />
-        <main id="main-content" className="pb-20 md:pb-0" tabIndex={-1}>
+        <main id="main-content" tabIndex={-1}>
           <HeroSection />
           <AboutSection />
           <SkillsSection />
@@ -78,7 +77,6 @@ const Index = () => {
         </main>
         <Footer />
       </div>
-      <BottomNav />
       <BackToTop />
       <PortfolioChat />
     </>
