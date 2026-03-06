@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Zap, Menu, X, Sun, Moon } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Theme = "thunder" | "dark" | "light";
 
 const THEME_KEY = "sri_theme";
+const HEADER_OFFSET_PX = 96;
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("thunder");
   const [themeOpen, setThemeOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Initialize theme from storage / system preference
   useEffect(() => {
@@ -32,7 +36,15 @@ export const Header = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const y = element.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET_PX;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      setMobileMenuOpen(false);
+      return;
+    }
+
+    // If we're on another route (blogs/project/case-studies), navigate home and scroll there.
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
       setMobileMenuOpen(false);
     }
   };
@@ -180,6 +192,7 @@ export const Header = () => {
                 {item.label}
               </button>
             ))}
+            <a href="/blogs" className="text-left text-foreground hover:text-primary transition-colors font-medium" aria-label="View blogs">Blogs</a>
             <a href="/case-studies" className="text-left text-foreground hover:text-primary transition-colors font-medium" aria-label="View case studies">Case Studies</a>
             <div className="flex flex-col gap-3">
               <Button

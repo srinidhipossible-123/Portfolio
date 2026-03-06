@@ -1,4 +1,5 @@
 import { CaseStudy } from "./case-studies";
+import llbImg from "@/assets/llb.png";
 import dataImg from "@/assets/data.png";
 import bioImg from "@/assets/bio.png";
 import civilImg from "@/assets/civil.png";
@@ -20,6 +21,31 @@ export type CaseStudy = {
 };
 
 export const caseStudies: CaseStudy[] = [
+  {
+    slug: "gmu-school-of-law",
+    title: "G M School of Law — GM University",
+    period: "2024–2025",
+    role: "Full-Stack Web Developer",
+    stack: ["HTML5", "CSS3", "JavaScript", "University CMS", "Responsive UI"],
+    problem:
+      "GM University needed an official, structured digital portal for the School of Law to present programs, faculty expertise, resources, and admissions information in a professional, accessible format.",
+    solution:
+      "Built and integrated a responsive School of Law website into GMU’s official web infrastructure, organizing law programs (LLB, BA LLB, BBA LLB), faculty directory, academic resources, and activities/achievements with clear navigation and branding-aligned UI.",
+    outcomes: [
+      "Established a professional digital identity for GM School of Law on the official GMU domain",
+      "Improved accessibility of program details, resources, and admissions information for students and applicants",
+      "Showcased legal activities such as moot courts, seminars, and student achievements"
+    ],
+    metrics: [
+      "Live production system hosted on GM University official web infrastructure",
+      "Used by law students, faculty, and applicants for academic and admissions information",
+      "Supports ongoing updates aligned with university standards"
+    ],
+    screenshots: [
+      llbImg,
+    ],
+    demo: "https://gmu.ac.in/LLb/",
+  },
   {
     slug: "gmu-ds-iot-department-website",
     title: "GMU DS & IoT Department Website",

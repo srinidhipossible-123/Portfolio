@@ -7,6 +7,7 @@ export const useSwipeNavigation = () => {
   const touchEndY = useRef<number | null>(null);
   const minSwipeDistance = 50;
   const isScrolling = useRef(false);
+  const headerOffsetPx = 96;
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -44,7 +45,8 @@ export const useSwipeNavigation = () => {
         const element = document.getElementById(targetSection);
         if (element) {
           isScrolling.current = true;
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          const y = element.getBoundingClientRect().top + window.scrollY - headerOffsetPx;
+          window.scrollTo({ top: y, behavior: "smooth" });
           
           setTimeout(() => {
             isScrolling.current = false;

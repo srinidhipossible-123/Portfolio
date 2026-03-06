@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Loader from "@/components/Loader";
 import { ThunderBackground } from "@/components/ThunderBackground";
 import { ScrollProgress } from "@/components/ScrollProgress";
@@ -21,10 +21,13 @@ import { PortfolioChat } from "@/components/PortfolioChat";
 import { FaviconPulse } from "@/components/FaviconPulse";
 import { A11yEnhancements } from "@/components/A11yEnhancements";
 import BackToTop from "@/components/BackToTop";
+import { useLocation } from "react-router-dom";
 
 const Index = () => {
   // Enable swipe navigation on mobile
   useSwipeNavigation();
+  const { hash } = useLocation();
+  const headerOffsetPx = 96;
 
   useEffect(() => {
     // Smooth scroll behavior
@@ -35,6 +38,18 @@ const Index = () => {
       document.documentElement.classList.remove("snap-enabled");
     };
   }, []);
+
+  useEffect(() => {
+    if (!hash) return;
+    const id = decodeURIComponent(hash.replace(/^#/, ""));
+    // Let the page render before trying to scroll.
+    window.setTimeout(() => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const y = el.getBoundingClientRect().top + window.scrollY - headerOffsetPx;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }, 0);
+  }, [hash]);
 
   return (
     <>

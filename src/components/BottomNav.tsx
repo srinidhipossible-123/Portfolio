@@ -10,6 +10,7 @@ const navItems = [
 
 export const BottomNav = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const headerOffsetPx = 96;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,7 +33,8 @@ export const BottomNav = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      const y = element.getBoundingClientRect().top + window.scrollY - headerOffsetPx;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
