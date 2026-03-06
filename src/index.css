@@ -21,43 +21,44 @@
 
 /* Thunder Theme using CSS variables */
 @theme {
-  --color-background: hsl(210 16% 6%);
+  --color-background: hsl(220 18% 6.5%);
   --color-foreground: hsl(0 0% 100%);
 
-  --color-card: hsl(210 16% 8%);
+  --color-card: hsl(220 16% 9.5%);
   --color-card-foreground: hsl(0 0% 100%);
 
-  --color-popover: hsl(210 16% 8%);
+  --color-popover: hsl(220 16% 9.5%);
   --color-popover-foreground: hsl(0 0% 100%);
 
-  --color-primary: hsl(51 100% 50%);
-  --color-primary-foreground: hsl(210 16% 6%);
+  /* Softer “thunder” accents (less neon, more premium) */
+  --color-primary: hsl(48 96% 56%);
+  --color-primary-foreground: hsl(220 18% 6.5%);
 
-  --color-secondary: hsl(192 100% 50%);
-  --color-secondary-foreground: hsl(210 16% 6%);
+  --color-secondary: hsl(195 88% 58%);
+  --color-secondary-foreground: hsl(220 18% 6.5%);
 
-  --color-muted: hsl(210 16% 15%);
-  --color-muted-foreground: hsl(0 0% 70%);
+  --color-muted: hsl(220 16% 16%);
+  --color-muted-foreground: hsl(0 0% 72%);
 
-  --color-accent: hsl(51 100% 50%);
-  --color-accent-foreground: hsl(210 16% 6%);
+  --color-accent: hsl(48 96% 56%);
+  --color-accent-foreground: hsl(220 18% 6.5%);
 
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(0 0% 100%);
 
-  --color-border: hsl(51 100% 50% / 0.2);
-  --color-input: hsl(210 16% 15%);
-  --color-ring: hsl(51 100% 50%);
+  --color-border: hsl(48 96% 56% / 0.14);
+  --color-input: hsl(220 16% 16%);
+  --color-ring: hsl(48 96% 56% / 0.65);
 
   --radius: 0.75rem;
 
   /* Thunder Glow Custom Variables */
-  --electric-yellow: hsl(51 100% 50%);
-  --lightning-blue: hsl(192 100% 50%);
-  --deep-black: hsl(210 16% 6%);
+  --electric-yellow: hsl(48 96% 56%);
+  --lightning-blue: hsl(195 88% 58%);
+  --deep-black: hsl(220 18% 6.5%);
   --white-spark: hsl(0 0% 100%);
-  --thunder-glow: hsl(51 100% 50% / 0.5);
-  --lightning-glow: hsl(192 100% 50% / 0.5);
+  --thunder-glow: hsl(48 96% 56% / 0.28);
+  --lightning-glow: hsl(195 88% 58% / 0.22);
 }
 
 /* Base styles (v4 uses plain CSS now) */
@@ -100,46 +101,31 @@ h1, h2, h3, h4, h5, h6 {
   .space-y-6 > * + * { margin-top: 1rem; }
 }
 
-/* Smooth scrolling with optional snap points (desktop only).
-   On mobile, mandatory snap + touch momentum often feels “glitchy”. */
-@media (min-width: 1024px) {
-  html.snap-enabled {
-    scroll-snap-type: y proximity;
-    scroll-behavior: smooth;
-  }
-
-  html.snap-enabled section {
-    scroll-snap-align: start;
-  }
-}
-
 /* ⚡ Thunder Utility Classes */
 .text-glow {
   text-shadow:
-    0 0 10px hsl(51 100% 50% / 0.8),
-    0 0 20px hsl(51 100% 50% / 0.6),
-    0 0 30px hsl(51 100% 50% / 0.4);
+    0 0 8px var(--thunder-glow),
+    0 0 18px hsl(48 96% 56% / 0.18);
 }
 
 .text-glow-blue {
   text-shadow:
-    0 0 10px hsl(192 100% 50% / 0.8),
-    0 0 20px hsl(192 100% 50% / 0.6),
-    0 0 30px hsl(192 100% 50% / 0.4);
+    0 0 8px var(--lightning-glow),
+    0 0 18px hsl(195 88% 58% / 0.14);
 }
 
 .border-glow {
   box-shadow:
-    0 0 10px hsl(51 100% 50% / 0.5),
-    0 0 20px hsl(51 100% 50% / 0.3),
-    inset 0 0 10px hsl(51 100% 50% / 0.2);
+    0 0 10px var(--thunder-glow),
+    0 0 22px hsl(48 96% 56% / 0.12),
+    inset 0 0 10px hsl(48 96% 56% / 0.08);
 }
 
 .border-glow-blue {
   box-shadow:
-    0 0 10px hsl(192 100% 50% / 0.5),
-    0 0 20px hsl(192 100% 50% / 0.3),
-    inset 0 0 10px hsl(192 100% 50% / 0.2);
+    0 0 10px var(--lightning-glow),
+    0 0 22px hsl(195 88% 58% / 0.10),
+    inset 0 0 10px hsl(195 88% 58% / 0.07);
 }
 
 .lightning-bg {
@@ -151,8 +137,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .thunder-gradient {
   background: linear-gradient(135deg,
-    hsl(51 100% 50%) 0%,
-    hsl(192 100% 50%) 100%);
+    var(--electric-yellow) 0%,
+    var(--lightning-blue) 100%);
 }
 
 /* ⚡ Animations */
@@ -163,13 +149,13 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes thunder-pulse {
   0%, 100% {
-    box-shadow: 0 0 10px hsl(51 100% 50% / 0.5),
-                0 0 20px hsl(51 100% 50% / 0.3);
+    box-shadow: 0 0 10px var(--thunder-glow),
+                0 0 22px hsl(48 96% 56% / 0.12);
   }
   50% {
-    box-shadow: 0 0 20px hsl(51 100% 50% / 0.8),
-                0 0 40px hsl(51 100% 50% / 0.5),
-                0 0 60px hsl(51 100% 50% / 0.3);
+    box-shadow: 0 0 18px hsl(48 96% 56% / 0.30),
+                0 0 38px hsl(48 96% 56% / 0.18),
+                0 0 56px hsl(48 96% 56% / 0.10);
   }
 }
 
@@ -287,27 +273,28 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Theme variants via html[data-theme] overrides */
-[data-theme="thunder"] {
-  /* Defaults already set above */
-}
-
 [data-theme="dark"] {
-  --color-background: hsl(222 47% 7%);
+  --color-background: hsl(222 30% 7%);
   --color-foreground: hsl(0 0% 100%);
-  --color-card: hsl(222 47% 10%);
-  --color-primary: hsl(220 90% 56%);
-  --color-secondary: hsl(280 100% 60%);
-  --color-border: hsl(220 90% 56% / 0.2);
+  --color-card: hsl(222 26% 10%);
+  --color-muted: hsl(222 24% 16%);
+  --color-muted-foreground: hsl(0 0% 74%);
+  --color-primary: hsl(210 82% 60%);
+  --color-secondary: hsl(190 70% 54%);
+  --color-border: hsl(210 82% 60% / 0.14);
+  --color-ring: hsl(210 82% 60% / 0.55);
 }
 
 [data-theme="light"] {
   --color-background: hsl(0 0% 100%);
   --color-foreground: hsl(222 47% 11%);
   --color-card: hsl(0 0% 100%);
-  --color-primary: hsl(222 90% 56%);
-  --color-secondary: hsl(192 100% 40%);
-  --color-muted: hsl(210 16% 96%);
-  --color-border: hsl(222 90% 56% / 0.18);
+  --color-primary: hsl(220 72% 48%);
+  --color-secondary: hsl(190 65% 40%);
+  --color-muted: hsl(210 20% 96%);
+  --color-muted-foreground: hsl(222 25% 36%);
+  --color-border: hsl(220 72% 48% / 0.12);
+  --color-ring: hsl(220 72% 48% / 0.45);
 }
 
 /* Micro-interactions */
@@ -327,10 +314,10 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes ripple-kf { from { width: 0; height: 0; opacity: 0.25; } to { width: 300px; height: 300px; opacity: 0; } }
 
 /* Scroll progress bar */
-.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); z-index: 60; box-shadow: 0 0 10px var(--color-ring); }
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); z-index: 60; box-shadow: 0 0 10px var(--thunder-glow); }
 
 /* Dynamic cursor */
-.cursor-glow { position: fixed; top: 0; left: 0; width: 18px; height: 18px; border-radius: 9999px; pointer-events: none; z-index: 70; transform: translate(-50%, -50%); background: radial-gradient(circle, hsl(51 100% 60% / 0.9) 0%, hsl(51 100% 50% / 0.4) 40%, transparent 70%); filter: drop-shadow(0 0 10px hsl(51 100% 50% / 0.6)); }
+.cursor-glow { position: fixed; top: 0; left: 0; width: 18px; height: 18px; border-radius: 9999px; pointer-events: none; z-index: 70; transform: translate(-50%, -50%); background: radial-gradient(circle, hsl(48 96% 56% / 0.32) 0%, var(--thunder-glow) 45%, transparent 72%); filter: drop-shadow(0 0 10px hsl(48 96% 56% / 0.22)); }
 @media (pointer: coarse) { .cursor-glow { display: none; } }
 
 /* 3D Flip Card Styles for Recognition Section */
@@ -393,7 +380,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   width: 160px;
   height: 160%;
-  background: linear-gradient(90deg, transparent, hsl(51 100% 50%), hsl(51 100% 50%), hsl(51 100% 50%), hsl(51 100% 50%), transparent);
+  background: linear-gradient(90deg, transparent, var(--thunder-glow), var(--thunder-glow), var(--thunder-glow), var(--thunder-glow), transparent);
   animation: rotation_481 5000ms infinite linear;
 }
 
@@ -429,7 +416,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background-color: hsl(51 100% 50%);
+  background-color: var(--thunder-glow);
   position: absolute;
   filter: blur(15px);
   animation: floating 2600ms infinite linear;
