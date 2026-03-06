@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { blogs } from "@/data/blogs";
 import { ArrowLeft, Calendar, Clock, Github, ExternalLink, Zap } from "lucide-react";
@@ -11,6 +12,11 @@ const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const blog = blogs.find((b) => b.slug === slug);
+
+  useEffect(() => {
+    // Ensure we land at the top when opening a blog post
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [slug]);
 
   if (!blog) {
     return <NotFound />;
