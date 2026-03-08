@@ -143,11 +143,11 @@ export const PortfolioChat = () => {
 
   return (
     <>
-      <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-60 flex flex-col items-end gap-3">
+      <div className="fixed bottom-24 md:bottom-6 right-4 md:right-6 z-[60] flex flex-col items-end gap-5">
         {!open && showQuickMessage && (
-          <div className="relative bg-card/95 backdrop-blur-lg border border-primary/30 rounded-lg px-4 py-2 shadow-lg animate-fade-in animate-spark-float">
-            <p className="text-xs font-medium text-foreground whitespace-nowrap">{quickMessages[currentQuickMessage]}</p>
-            <button onClick={() => setShowQuickMessage(false)} className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-muted text-muted-foreground text-[10px] flex items-center justify-center">×</button>
+          <div className="relative bg-card/95 backdrop-blur-lg border border-primary/30 rounded-lg px-4 py-2.5 shadow-lg animate-fade-in">
+            <p className="text-xs font-medium text-foreground whitespace-nowrap pr-1">{quickMessages[currentQuickMessage]}</p>
+            <button onClick={() => setShowQuickMessage(false)} className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-muted text-muted-foreground text-[10px] flex items-center justify-center hover:bg-muted/80">×</button>
           </div>
         )}
 
