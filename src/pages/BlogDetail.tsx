@@ -94,7 +94,7 @@ const BlogDetail = () => {
         {/* Design Flow Diagram */}
         {blog.designFlowDiagram && (
           <div className="mb-12 animate-fade-in">
-            <h2 className="text-3xl font-bold mb-6 text-glow">Design Flow Diagram</h2>
+            <h2 className="text-3xl font-bold mb-6 text-glow">Design Flow Diagra</h2>
             <div className="relative rounded-2xl overflow-hidden border border-primary/20 bg-card/50 p-4">
               <img
                 src={blog.designFlowDiagram}
