@@ -33,38 +33,44 @@ export const PortfolioChat = () => {
     }
   }, []);
 
+  // Defer Spline 3D load until after first paint (keeps initial load fast)
+  const [splineReady, setSplineReady] = useState(false);
   useEffect(() => {
-    if (!document.querySelector('script[data-spline-viewer]')) {
-      const s = document.createElement('script');
-      s.type = 'module';
-      s.src = 'https://unpkg.com/@splinetool/viewer@1.11.5/build/spline-viewer.js';
-      s.setAttribute('data-spline-viewer', 'true');
-      document.body.appendChild(s);
-    }
-    if (!document.querySelector('style[data-spline-hide]')) {
-      const style = document.createElement('style');
-      style.setAttribute('data-spline-hide', 'true');
-      style.innerHTML = `.spline-badge, .built-with-spline, [title*="Built with Spline"], [aria-label*="Built with Spline"], [href*="spline.design"], spline-viewer .spline-badge { display: none !important; } spline-viewer, spline-viewer * { background: transparent !important; }`;
-      document.head.appendChild(style);
-    }
-    const hideNode = (node: Node) => {
-      try {
-        const el = node as Element; if (!el) return; if (el.tagName === 'SPLINE-VIEWER') return;
-        const inViewer = (el as HTMLElement).closest && (el as HTMLElement).closest('spline-viewer'); if (!inViewer) return;
-        const title = el.getAttribute?.('title') || '';
-        const aria = el.getAttribute?.('aria-label') || '';
-        const href = el.getAttribute?.('href') || '';
-        const text = el.textContent || '';
-        if (/built with spline/i.test(text) || /\bspline\b/i.test(text) || /\bspline\b/i.test(title) || /\bspline\b/i.test(aria) || /spline\.design|splinetool/i.test(href)) {
-          const html = el as HTMLElement; html.style.display = 'none'; html.style.visibility = 'hidden'; html.style.opacity = '0'; html.style.pointerEvents = 'none';
-        }
-      } catch {}
-    };
-    const traverse = (root: Node) => { hideNode(root); root.childNodes.forEach(c => traverse(c)); const e = root as Element & { shadowRoot?: ShadowRoot }; if (e?.shadowRoot) traverse(e.shadowRoot as unknown as Node); };
-    const observer = new MutationObserver(() => { document.querySelectorAll('spline-viewer').forEach(v => traverse(v)); });
-    document.querySelectorAll('spline-viewer').forEach(v => traverse(v));
-    observer.observe(document.body, { childList: true, subtree: true });
-    return () => observer.disconnect();
+    let observer: MutationObserver | null = null;
+    const t = setTimeout(() => {
+      setSplineReady(true);
+      if (!document.querySelector('script[data-spline-viewer]')) {
+        const s = document.createElement('script');
+        s.type = 'module';
+        s.src = 'https://unpkg.com/@splinetool/viewer@1.11.5/build/spline-viewer.js';
+        s.setAttribute('data-spline-viewer', 'true');
+        document.body.appendChild(s);
+      }
+      if (!document.querySelector('style[data-spline-hide]')) {
+        const style = document.createElement('style');
+        style.setAttribute('data-spline-hide', 'true');
+        style.innerHTML = `.spline-badge, .built-with-spline, [title*="Built with Spline"], [aria-label*="Built with Spline"], [href*="spline.design"], spline-viewer .spline-badge { display: none !important; } spline-viewer, spline-viewer * { background: transparent !important; }`;
+        document.head.appendChild(style);
+      }
+      const hideNode = (node: Node) => {
+        try {
+          const el = node as Element; if (!el) return; if (el.tagName === 'SPLINE-VIEWER') return;
+          const inViewer = (el as HTMLElement).closest?.('spline-viewer'); if (!inViewer) return;
+          const title = el.getAttribute?.('title') || '';
+          const aria = el.getAttribute?.('aria-label') || '';
+          const href = el.getAttribute?.('href') || '';
+          const text = el.textContent || '';
+          if (/built with spline/i.test(text) || /\bspline\b/i.test(text) || /\bspline\b/i.test(title) || /\bspline\b/i.test(aria) || /spline\.design|splinetool/i.test(href)) {
+            const html = el as HTMLElement; html.style.display = 'none'; html.style.visibility = 'hidden'; html.style.opacity = '0'; html.style.pointerEvents = 'none';
+          }
+        } catch {}
+      };
+      const traverse = (root: Node) => { hideNode(root); root.childNodes.forEach(c => traverse(c)); const e = root as Element & { shadowRoot?: ShadowRoot }; if (e?.shadowRoot) traverse(e.shadowRoot as unknown as Node); };
+      observer = new MutationObserver(() => { document.querySelectorAll('spline-viewer').forEach(v => traverse(v)); });
+      document.querySelectorAll('spline-viewer').forEach(v => traverse(v));
+      observer.observe(document.body, { childList: true, subtree: true });
+    }, 1500);
+    return () => { clearTimeout(t); observer?.disconnect(); };
   }, []);
 
   const getAssistantResponse = (text: string) => {
@@ -154,10 +160,12 @@ export const PortfolioChat = () => {
         <button onClick={() => { setOpen(!open); setShowQuickMessage(false); }} className="w-16 h-16 md:w-16 md:h-16 rounded-full bg-transparent transition-transform flex items-center justify-center animate-fade-in hover:scale-110 relative overflow-hidden">
           {open ? (
             <X className="w-6 h-6" />
-          ) : (
+          ) : splineReady ? (
             <div className="absolute inset-0 rounded-full overflow-hidden">
               <spline-viewer url="https://prod.spline.design/TgQjhltiGWJ8Zy1U/scene.splinecode" style={{ width: "100%", height: "100%", pointerEvents: "none" }} />
             </div>
+          ) : (
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 via-secondary/30 to-primary/40" />
           )}
           {!open && <span className="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full animate-pulse" />}
         </button>

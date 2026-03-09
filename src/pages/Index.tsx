@@ -1,8 +1,7 @@
-import { useEffect } from "react";
-import Loader from "@/components/Loader";
+import { useEffect, lazy, Suspense } from "react";
+import { useLocation } from "react-router-dom";
 import { ThunderBackground } from "@/components/ThunderBackground";
 import { ScrollProgress } from "@/components/ScrollProgress";
-import { DynamicCursor } from "@/components/DynamicCursor";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
@@ -11,16 +10,15 @@ import { ProjectsSection } from "@/components/ProjectSection";
 import { RecognitionSection } from "@/components/RecognitionSection";
 import { AchievementsSection } from "@/components/AchievementsSection";
 import { ContactSection } from "@/components/ContactSection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { DeveloperStats } from "@/components/DeveloperStats";
 import { Analytics } from "@/components/Analytics";
 import { useSwipeNavigation } from "@/hooks/use-swipe-navigation";
 import { Footer } from "@/components/Footer";
 import { PortfolioChat } from "@/components/PortfolioChat";
-import { FaviconPulse } from "@/components/FaviconPulse";
 import { A11yEnhancements } from "@/components/A11yEnhancements";
 import BackToTop from "@/components/BackToTop";
-import { useLocation } from "react-router-dom";
+
+const TestimonialsSection = lazy(() => import("@/components/TestimonialsSection").then(m => ({ default: m.TestimonialsSection })));
+const DeveloperStats = lazy(() => import("@/components/DeveloperStats").then(m => ({ default: m.DeveloperStats })));
 
 const Index = () => {
   // Enable swipe navigation on mobile
@@ -52,8 +50,6 @@ const Index = () => {
     <>
       <ScrollProgress />
       <Analytics />
-      <DynamicCursor />
-      <FaviconPulse />
       <A11yEnhancements />
       <ThunderBackground />
       
@@ -66,8 +62,10 @@ const Index = () => {
           <ProjectsSection />
           <RecognitionSection />
           <AchievementsSection />
-          <TestimonialsSection />
-          <DeveloperStats />
+          <Suspense fallback={null}>
+            <TestimonialsSection />
+            <DeveloperStats />
+          </Suspense>
           <ContactSection />
         </main>
         <Footer />

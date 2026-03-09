@@ -1,24 +1,5 @@
 @import "tailwindcss";
 
-@keyframes shimmer-sweep {
-  0% { transform: translateX(-150%) rotate(15deg); opacity: 0; }
-  50% { opacity: 0.3; }
-  100% { transform: translateX(150%) rotate(15deg); opacity: 0; }
-}
-
-.animate-shimmer-sweep {
-  animation: shimmer-sweep 3s ease-in-out infinite;
-}
-
-@keyframes subtle-zoom {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-.animate-subtle-zoom {
-  animation: subtle-zoom 5s ease-in-out infinite;
-}
-
 /* Thunder Theme using CSS variables */
 @theme {
   --color-background: hsl(220 18% 6.5%);
@@ -64,6 +45,10 @@
 /* Base styles (v4 uses plain CSS now) */
 * {
   border-color: var(--color-border);
+}
+
+section {
+  content-visibility: auto;
 }
 
 body {
