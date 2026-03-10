@@ -74,5 +74,5 @@ export const ThemePanel = () => {
     </div>
   );
 };
-
+//sri theme panel with 3 themes: thunder, dark, light. uses local storage to persist theme and system preference on first load. accessible with aria attributes.
 
