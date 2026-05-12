@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loader from "@/components/Loader";
+import { ThunderCursor } from "@/components/ThunderCursor";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Blogs from "./pages/Blogs";
@@ -23,6 +24,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ThunderCursor />
         <Toaster />
         <Sonner />
         {showSplash && <Loader onComplete={() => setShowSplash(false)} />}

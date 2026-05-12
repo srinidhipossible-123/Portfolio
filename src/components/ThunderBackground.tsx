@@ -2,6 +2,7 @@ import moon from "@/assets/moon.jpg";
 
 export const ThunderBackground = () => (
   <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="absolute inset-0 electric-grid opacity-20" />
     <div className="absolute inset-0">
       <img
         src={moon}

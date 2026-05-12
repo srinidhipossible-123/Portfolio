@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import realisticLightning from "@/assets/realistic-lightning.png";
 import professionalThunderLogo from "@/assets/professional-thunder-logo.jpeg";
+import zenitsuVideo from "@/assets/zenitsu.mp4";
 
 interface ThunderSplashProps {
   onComplete: () => void;
@@ -12,16 +12,16 @@ export const ThunderSplash = ({ onComplete }: ThunderSplashProps) => {
 
   useEffect(() => {
     // Cinematic thunder flashes
-    [700, 1900].forEach((t) =>
+    [700, 1900, 3200].forEach((t) =>
       setTimeout(() => {
         setFlash(true);
         setTimeout(() => setFlash(false), 120);
       }, t)
     );
 
-    const t1 = setTimeout(() => setPhase("logo"), 900);
-    const t2 = setTimeout(() => setPhase("fade"), 3600);
-    const t3 = setTimeout(onComplete, 4200);
+    const t1 = setTimeout(() => setPhase("logo"), 1200);
+    const t2 = setTimeout(() => setPhase("fade"), 5500);
+    const t3 = setTimeout(onComplete, 6500);
 
     return () => {
       clearTimeout(t1);
@@ -32,23 +32,27 @@ export const ThunderSplash = ({ onComplete }: ThunderSplashProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-1000 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-1000 bg-black ${
         phase === "fade" ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* 🌩 Storm Background */}
-      <div className="absolute inset-0">
-        <img
-          src={realisticLightning}
-          alt=""
-          className="w-full h-full object-cover opacity-45"
-        />
-        <div className="absolute inset-0 bg-black/75" />
+      {/* 🌩 Zenitsu Video Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-60 scale-110"
+        >
+          <source src={zenitsuVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/40 to-black/80" />
       </div>
 
       {/* ⚡ Thunder Flash */}
       <div
-        className={`absolute inset-0 bg-primary/30 transition-opacity duration-150 ${
+        className={`absolute inset-0 bg-primary/20 transition-opacity duration-150 mix-blend-screen pointer-events-none ${
           flash ? "opacity-100" : "opacity-0"
         }`}
       />

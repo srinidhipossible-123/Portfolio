@@ -34,12 +34,51 @@
   --radius: 0.75rem;
 
   /* Thunder Glow Custom Variables */
-  --electric-yellow: hsl(48 96% 56%);
-  --lightning-blue: hsl(195 88% 58%);
-  --deep-black: hsl(220 18% 6.5%);
+  --electric-yellow: hsl(51 100% 50%);
+  --lightning-blue: hsl(192 100% 50%);
+  --deep-black: hsl(210 16% 6%);
   --white-spark: hsl(0 0% 100%);
-  --thunder-glow: hsl(48 96% 56% / 0.28);
-  --lightning-glow: hsl(195 88% 58% / 0.22);
+  --thunder-glow: hsl(51 100% 50% / 0.5);
+  --lightning-glow: hsl(192 100% 50% / 0.5);
+
+  /* New Crazy Effects */
+  --grid-pattern: radial-gradient(circle, var(--electric-yellow) 1px, transparent 1px);
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-12 {
+    transform: rotateY(12deg);
+  }
+  .-rotate-y-12 {
+    transform: rotateY(-12deg);
+  }
+}
+
+/* Electric Grid Background */
+.electric-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 217, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 217, 0, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.animate-scan {
+  animation: scan 3s linear infinite;
 }
 
 /* Base styles (v4 uses plain CSS now) */

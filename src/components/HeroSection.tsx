@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { ArrowRight, Download } from "lucide-react";
 import { TimeAwareGreeting } from "@/components/TimeAwareGreeting";
 import resumeFile from "@/assets/Srinidhi S Joshi.pdf";
+import zenitsuVideo from "@/assets/zenitsu.mp4";
 
 export const HeroSection = () => {
   const [displayedGreeting, setDisplayedGreeting] = useState("");
@@ -276,6 +277,20 @@ export const HeroSection = () => {
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 relative overflow-visible">
+      {/* ⚡ Zenitsu Background Video Overlay */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover scale-110"
+        >
+          <source src={zenitsuVideo} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background" />
+      </div>
+
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full animate-spark-float" />
@@ -300,8 +315,8 @@ export const HeroSection = () => {
           </div>
 
           {/* Right side - Content */}
-          <div className="space-y-6 md:space-y-8 animate-slide-in-right">
-            <div className="space-y-4 md:space-y-6">
+          <div className="space-y-6 md:space-y-8 animate-slide-in-right perspective-1000">
+            <div className="space-y-4 md:space-y-6 preserve-3d transition-transform duration-500 hover:rotate-x-6 hover:-rotate-y-6">
               {/* Time-aware greeting with GPS location */}
               <TimeAwareGreeting />
               

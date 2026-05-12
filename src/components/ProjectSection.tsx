@@ -267,11 +267,18 @@ export const ProjectsSection = () => {
           {/* Projects Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {filteredProjects.map((project, index) => (
-              <Card
+              <div
                 key={project.title}
-                className="group bg-card/80 backdrop-blur-lg border-primary/20 hover:border-primary/60 transition-all duration-500 overflow-hidden border-glow cursor-pointer animate-fade-in hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(139,92,246,0.35)]"
+                className="perspective-1000 group/card animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
+                <Card
+                  className="relative bg-card/80 backdrop-blur-lg border-primary/20 hover:border-primary/60 transition-all duration-700 overflow-hidden border-glow cursor-pointer preserve-3d group-hover/card:rotate-y-12 hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(139,92,246,0.35)]"
+                >
+                  {/* ⚡ Crazy Scanning Effect */}
+                  <div className="absolute inset-0 pointer-events-none z-20">
+                    <div className="w-full h-1 bg-primary/30 shadow-[0_0_15px_rgba(139,92,246,0.5)] animate-scan opacity-0 group-hover/card:opacity-100" />
+                  </div>
                 {/* Project Mode Badge */}
                 <div className="absolute top-3 left-3 z-20">
                   <div className={`
@@ -292,7 +299,7 @@ export const ProjectsSection = () => {
                 </div>
 
                 {/* Project Image */}
-                <div className="relative overflow-hidden aspect-video">
+                <div className="relative h-56 overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -381,7 +388,8 @@ export const ProjectsSection = () => {
                   </Button>
                 </div>
               </Card>
-            ))}
+            </div>
+          ))}
           </div>
         </div>
       </div>
